@@ -1,5 +1,6 @@
 <script>
   import { link } from "svelte-routing";
+  import Darkmode from '../components/Darkmode.svelte';
 </script>
 
 <template>
@@ -16,6 +17,7 @@
         </svg>
         Brasil
       </h2>
+      <Darkmode type="footer" />
     </div>
     <hr class="divider" />
     <div>
