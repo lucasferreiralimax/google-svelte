@@ -1,1 +1,5 @@
-<h1>Home</h1>
+<script>
+  import HeaderComponent from '../components/HeaderComponent.svelte';
+</script>
+
+<HeaderComponent />
