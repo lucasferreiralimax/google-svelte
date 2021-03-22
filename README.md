@@ -44,7 +44,7 @@ If you're building a single-page app (SPA) with multiple routes, sirv needs to b
 
 ## Learn More
 
-> Se tiver problemas [abra uma nova issue aqui](https://github.com/lucasferreiralimax/google-angular/issues/new)
+> Se tiver problemas [abra uma nova issue aqui](https://github.com/lucasferreiralimax/google-svelte/issues/new)
 
 ### :performing_arts: Com quem você pode conversar sobre o projeto?
 #### Who can you talk to about the project?
