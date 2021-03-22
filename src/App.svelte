@@ -8,19 +8,35 @@
 	import Notfound from "./views/Notfound.svelte";
 </script>
 
-<Router>
-  <NavComponent />
-  <Route path="/">
-    <Home />
-  </Route>
-  <Route path="login">
-    <Login />
-  </Route>
-  <Route path="config">
-    <Config />
-  </Route>
-  <Route path="*">
-    <Notfound />
-  </Route>
-  <FooterComponent />
-</Router>
+<div class="App">
+  <Router>
+    <NavComponent />
+    <Route path="/">
+      <Home />
+    </Route>
+    <Route path="login">
+      <Login />
+    </Route>
+    <Route path="config">
+      <Config />
+    </Route>
+    <Route path="*">
+      <Notfound />
+    </Route>
+    <FooterComponent />
+  </Router>
+</div>
+
+<style lang="scss">
+.App {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 96px);
+  justify-content: center;
+  @media (max-height: 600px) {
+    justify-content: space-between;
+    min-height: 600px;
+  }
+}
+</style>
