@@ -53,7 +53,7 @@
     {:else}
       <div>
         <span>Dark Mode</span>
-        <input id="darkmode" type="checkbox" />
+        <input id="darkmode" type="checkbox" checked={darkmode} />
       </div>
     {/if}
   </button>
@@ -93,6 +93,7 @@
       padding: 1em;
       user-select: none;
       width: 100%;
+      input { cursor: pointer; }
     }
   }
 </style>
