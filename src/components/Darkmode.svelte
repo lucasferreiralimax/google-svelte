@@ -1,13 +1,13 @@
 <script>
   import { onMount } from 'svelte';
-  import { darkmode } from '../store.js';
+  import { darkmode_store } from '../store.js';
 
   export let type;
 
-  let darkmode_value;
+  let darkmode;
 
-  const unsubscribe = darkmode.subscribe(value => {
-		darkmode_value = value;
+  const unsubscribe = darkmode_store.subscribe(value => {
+		darkmode = value;
 	});
 
   onMount(() => {
@@ -15,7 +15,7 @@
   });
 
   function dark(type) {
-    darkmode.set(type)
+    darkmode_store.set(type)
     localStorage.setItem("darkmode", type)
     if(!type) {
       document.documentElement.style.setProperty('--main-color', '#000');
@@ -46,10 +46,10 @@
 </script>
 
 <template>
-  <button type="button" class='darkmode' class:active='{darkmode_value}' class:footer='{type}' aria-label="Toggle darkmode" on:click={() => dark(!darkmode_value)}>
+  <button type="button" class='darkmode' class:active='{darkmode}' class:footer='{type}' aria-label="Toggle darkmode" on:click={() => dark(!darkmode)}>
     {#if type}
       <svg width="25px" height="25px" viewBox="-5 -5 34 34" fill="var(--main-color)">
-        {#if darkmode_value}
+        {#if darkmode}
           <path d="M12 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zM4.929 4.929a1 1 0 011.414 0l.707.707A1 1 0 115.636 7.05l-.707-.707a1 1 0 010-1.414zm14.142 0a1 1 0 010 1.414l-.707.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM7 12a5 5 0 1110 0 5 5 0 01-10 0zm-5 0a1 1 0 011-1h1a1 1 0 110 2H3a1 1 0 01-1-1zm17 0a1 1 0 011-1h1a1 1 0 110 2h-1a1 1 0 01-1-1zm-2.05 4.95a1 1 0 011.414 0l.707.707a1 1 0 01-1.414 1.414l-.707-.707a1 1 0 010-1.414zm-11.314 0a1 1 0 011.414 1.414l-.707.707a1 1 0 01-1.414-1.414l.707-.707zM12 19a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1z"/>
         {:else}
           <path v-else d="M9.353 2.939a1 1 0 01.22 1.08 8 8 0 0010.408 10.408 1 1 0 011.301 1.3A10.003 10.003 0 0112 22C6.477 22 2 17.523 2 12c0-4.207 2.598-7.805 6.273-9.282a1 1 0 011.08.22z"/>
@@ -58,7 +58,7 @@
     {:else}
       <div>
         <span>Dark Mode</span>
-        <input id="darkmode" type="checkbox" checked={darkmode_value} />
+        <input id="darkmode" type="checkbox" checked={darkmode} />
       </div>
     {/if}
   </button>
