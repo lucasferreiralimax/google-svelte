@@ -6,6 +6,9 @@
   let ctrlalt = false;
   let capslock = false;
   let shift = false;
+  let left = 0;
+  let top = 0;
+  let moving = false;
 
   const unsubscribeSearch = search_store.subscribe(value => {
 		search = value;
@@ -14,12 +17,31 @@
   const unsubscribeKeyboard = keyboard_store.subscribe(value => {
 		keyboard = value;
 	});
+
+
+	function onMouseDown() {
+		moving = true;
+	}
+
+	function onMouseMove(e) {
+		if (moving) {
+			left += e.movementX;
+			top += e.movementY;
+		}
+	}
+
+	function onMouseUp() {
+		moving = false;
+	}
+
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('mouseup', onMouseUp);
 </script>
 
 <template>
-  <section class="App-keyboard" class:active='{keyboard}'>
-    <h1 ref="handler">português brasileiro</h1>
-    <button class="exit" type="button"><i class="icon icon-exit">X</i></button>
+  <section class="App-keyboard" class:active='{keyboard}' style="left: {left}px; top: {top}px;">
+    <h1 on:mousedown={onMouseDown}>português brasileiro</h1>
+    <button class="exit" type="button" on:click={() => keyboard_store.set(false)}><i class="icon icon-exit">X</i></button>
     <div class="App-keyboard-content">
       <div class="row">
         <button class="key" type="button">'</button>
@@ -99,28 +121,17 @@
   font-size: 14px;
   min-width: 495px;
   height: auto;
-  left: 0;
   margin: 0;
   opacity: 0;
   padding: 35px 10px 10px;
   pointer-events: none;
   position: fixed;
-  top: 0;
   transition: .3s background-color opacity;
   user-select: none;
   z-index: 99;
   &.active {
     opacity: 1;
     pointer-events: all;
-  }
-  .move-zone {
-    cursor: move;
-    font-size: 0;
-    height: 33px;
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
   }
   .icon-backspace,
   .icon-capslock,
@@ -152,7 +163,7 @@
     border: 1px solid rgba(var(--main-color-rgb),0.1);
     color: var(--main-color);
     height: 29px;
-    margin: 2px;
+    margin: 2px 0;
     max-height: 50px;
     max-width: 500px;
     min-height: 0px;
@@ -162,14 +173,9 @@
     text-align: center;
     vertical-align: middle;
     cursor: pointer;
-    &.hidden {
-      font-size: 0;
-      opacity: .5;
-      pointer-events: none;
-    }
     &:hover {
       background-color: rgba(var(--main-color-rgb), .02);
-      border-color: rgba(var(--main-color-rgb),0.3);
+      border-color: rgba(var(--main-color-rgb), 0.3);
       box-shadow: 0px 1px 1px rgba(0,0,0,0.1);
       color: var(--main-color);
     }
@@ -181,6 +187,11 @@
       box-shadow: inset 0px 1px 2px rgba(0,0,0,0.4);
       color: var(--main-color);
       filter: invert(1) brightness(2);
+    }
+    &.hidden {
+      font-size: 0;
+      opacity: .5;
+      pointer-events: none;
     }
   }
 }
