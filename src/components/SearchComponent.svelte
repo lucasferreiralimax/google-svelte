@@ -1,9 +1,14 @@
 <script>
-  import { search_store } from '../store.js';
+  import { search_store, keyboard_store } from '../store.js';
   let search;
+  let keyboard;
 
-  const unsubscribe = search_store.subscribe(value => {
+  const unsubscribeSearch = search_store.subscribe(value => {
 		search = value;
+	});
+
+  const unsubscribeKeyboard = keyboard_store.subscribe(value => {
+		keyboard = value;
 	});
 </script>
 
@@ -19,7 +24,7 @@
       <svg class="icon-clean" focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" fill="#999"></path></svg>
       <span>Limpar</span>
     </button>
-    <button type="button" class="btn keyboard">
+    <button type="button" class="btn keyboard" on:click={() => keyboard_store.set(!keyboard)}>
       <img src='../assets/keyboard.png' class="icon-keyboard" alt="Icone Teclado" width="19" height="11" />
       <span>Teclado virtual</span>
     </button>
