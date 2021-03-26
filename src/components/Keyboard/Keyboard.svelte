@@ -1,4 +1,7 @@
 <script>
+  import { shiftEvent } from './shiftEvent';
+  import { ctrlAltEvent } from './ctrlAltEvent';
+  import { capslockEvent } from './capslockEvent';
   import { search_store, keyboard_store } from '../../store.js';
 
   let search;
@@ -18,6 +21,78 @@
 		keyboard = value;
 	});
 
+  function onKeyVirtualEvents(event) {
+    if(event.target.classList.contains('key')) {
+      let input = document.querySelector('.App-search-input')
+
+      switch(event.target.textContent) {
+        case 'capslock':
+          capslock = !capslock
+          capslockEvent(capslock)
+          break;
+        case 'shift 1':
+        case 'shift 2':
+          shift = !shift
+          shiftEvent(shift)
+          break;
+        case 'Ctrl+Alt':
+          ctrlalt = !ctrlalt
+          ctrlAltEvent(ctrlalt)
+          break;
+        case 'backspace':
+          backspaceEvent(input)
+          break;
+        case 'whitespace':
+          insertAtCaretEvent(input, ' ')
+          break;
+        default:
+          insertAtCaretEvent(input, event.target.textContent)
+          break;
+      }
+    }
+  }
+
+  function backspaceEvent(element) {
+    if (document.selection) {
+      element.focus()
+      let sel = document.selection.createRange()
+      --sel.text;
+      element.focus()
+    } else if (element.selectionStart || element.selectionStart === 0) {
+      let startPos = element.selectionStart;
+      let endPos = element.selectionEnd;
+      let textValue = element.value.substring(0, startPos-1) + element.value.substring(endPos, element.value.length)
+
+      search_store.set(textValue)
+      element.focus()
+      element.selectionStart = startPos;
+      element.selectionEnd = --endPos;
+    } else {
+      search_store.set(--element.value)
+      element.focus()
+    }
+  }
+
+  function insertAtCaretEvent(element, text) {
+    if (document.selection) {
+      element.focus()
+      let sel = document.selection.createRange()
+      sel.text = text;
+      element.focus()
+    } else if (element.selectionStart || element.selectionStart === 0) {
+      let startPos = element.selectionStart;
+      let endPos = element.selectionEnd;
+      let textValue = element.value.substring(0, startPos) + text + element.value.substring(endPos, element.value.length)
+
+      search_store.set(textValue)
+      element.focus()
+      element.selectionStart = startPos + text.length;
+      element.selectionEnd = startPos + text.length;
+    } else {
+      search_store.set(element.value += text)
+      element.focus()
+    }
+  }
 
 	function onMouseDown() {
 		moving = true;
@@ -42,7 +117,7 @@
   <section class="App-keyboard" class:active='{keyboard}' style="left: {left}px; top: {top}px;">
     <h1 on:mousedown={onMouseDown}>português brasileiro</h1>
     <button class="exit" type="button" on:click={() => keyboard_store.set(false)}><i class="icon icon-exit">X</i></button>
-    <div class="App-keyboard-content">
+    <div class="App-keyboard-content" on:click={onKeyVirtualEvents}>
       <div class="row">
         <button class="key" type="button">'</button>
         <button class="key" type="button">1</button>
