@@ -1,5 +1,7 @@
 export function ctrlAltEvent(status) {
   let keys = document.querySelectorAll('.App-keyboard-content .key')
+  let style_hidden = 'font-size: 0; opacity: .5; pointer-events: none;';
+
   for(let key of keys) {
     switch(key.textContent) {
       case 'backspace':
@@ -56,9 +58,9 @@ export function ctrlAltEvent(status) {
         break;
       default:
         status ?
-          key.classList.add('hidden')
+          key.setAttribute('style', style_hidden)
           :
-          key.classList.remove('hidden')
+          key.removeAttribute('style')
         break;
     }
   }

@@ -263,11 +263,6 @@
       color: var(--main-color);
       filter: invert(1) brightness(2);
     }
-    &.hidden {
-      font-size: 0;
-      opacity: .5;
-      pointer-events: none;
-    }
   }
 }
 </style>
