@@ -5,5 +5,10 @@ module.exports = {
   },
   testPathIgnorePatterns: ["node_modules/?!(svelte-routing)"],
   moduleFileExtensions: ['js', 'svelte'],
-  setupFilesAfterEnv: ['<rootDir>/scripts/setupTest.js']
+  setupFilesAfterEnv: ['<rootDir>/scripts/setupTest.js'],
+  coverageReporters: ["json", "html", "text", "text-summary"],
+  collectCoverageFrom: [
+    "**/*.{js,svelte}",
+    "!**/node_modules/**",
+  ]
 }
