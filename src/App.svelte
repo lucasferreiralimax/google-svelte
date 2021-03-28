@@ -20,9 +20,7 @@
     <Route path="config">
       <Config />
     </Route>
-    <Route path="*">
-      <Notfound />
-    </Route>
+    <Route component={Notfound} />
     <FooterComponent />
   </Router>
 </div>
