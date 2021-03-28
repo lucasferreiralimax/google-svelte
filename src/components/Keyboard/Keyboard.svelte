@@ -2,6 +2,7 @@
   import { shiftEvent } from './shiftEvent';
   import { ctrlAltEvent } from './ctrlAltEvent';
   import { capslockEvent } from './capslockEvent';
+  import { noKeysCharEvents } from './utils';
   import { search_store, keyboard_store } from '../../store.js';
 
   let search;
@@ -25,31 +26,34 @@
     if(event.target.classList.contains('key')) {
       let input = document.querySelector('.App-search-input')
 
-      switch(event.target.textContent) {
-        case 'capslock':
-          capslock = !capslock
-          capslockEvent(capslock)
-          break;
-        case 'shift 1':
-        case 'shift 2':
-          shift = !shift
-          shiftEvent(shift)
-          break;
-        case 'Ctrl+Alt':
-          ctrlalt = !ctrlalt
-          ctrlAltEvent(ctrlalt)
-          break;
-        case 'backspace':
-          backspaceEvent(input)
-          break;
-        case 'whitespace':
-          insertAtCaretEvent(input, ' ')
-          break;
-        default:
-          insertAtCaretEvent(input, event.target.textContent)
-          break;
+      if(!noKeysCharEvents.includes(event.target.textContent)) {
+        switch(event.target.textContent) {
+          case 'backspace':
+            backspaceEvent(input)
+            break;
+          case 'whitespace':
+            insertAtCaretEvent(input, ' ')
+            break;
+          default:
+            insertAtCaretEvent(input, event.target.textContent)
+        }
       }
     }
+  }
+
+  function handleCapslock() {
+    capslock = !capslock
+    capslockEvent(capslock)
+  }
+
+  function handleShift() {
+    shift = !shift
+    shiftEvent(shift)
+  }
+
+  function handleCtrlAlt() {
+    ctrlalt = !ctrlalt
+    ctrlAltEvent(ctrlalt)
   }
 
   function backspaceEvent(element) {
@@ -149,7 +153,7 @@
         <button class="key" type="button">[</button>
       </div>
       <div class="row">
-        <button class="key" class:active='{capslock}' type="button" style="width: 53.75px;"><i class="icon icon-capslock">capslock</i></button>
+        <button class="key" class:active='{capslock}' on:click={handleCapslock} type="button" style="width: 53.75px;"><i class="icon icon-capslock">capslock</i></button>
         <button class="key" type="button">a</button>
         <button class="key" type="button">s</button>
         <button class="key" type="button">d</button>
@@ -164,7 +168,7 @@
         <button class="key" type="button">]</button>
       </div>
       <div class="row">
-        <button class="key" class:active='{shift}' type="button" style="width: 37.25px;"><i class="icon icon-shitf">shift 1</i></button>
+        <button class="key" class:active='{shift}' on:click={handleShift} type="button" style="width: 37.25px;"><i class="icon icon-shitf">shift 1</i></button>
         <button class="key" type="button">\</button>
         <button class="key" type="button">z</button>
         <button class="key" type="button">x</button>
@@ -176,12 +180,12 @@
         <button class="key" type="button">,</button>
         <button class="key" type="button">.</button>
         <button class="key" type="button">;</button>
-        <button class="key" class:active='{shift}' type="button" style="width: 86.75px;"><i class="icon icon-shitf">shift 2</i></button>
+        <button class="key" class:active='{shift}' on:click={handleShift} type="button" style="width: 86.75px;"><i class="icon icon-shitf">shift 2</i></button>
       </div>
       <div class="row">
-        <button class="key" class:active='{ctrlalt}' type="button" style="width: 95px;">Ctrl+Alt</button>
+        <button class="key" class:active='{ctrlalt}' on:click={handleCtrlAlt} type="button" style="width: 95px;">Ctrl+Alt</button>
         <button class="key" type="button" style="width: 293px; font-size: 0px;">whitespace</button>
-        <button class="key" class:active='{ctrlalt}' type="button" style="width: 95px;">Ctrl+Alt</button>
+        <button class="key" class:active='{ctrlalt}' on:click={handleCtrlAlt} type="button" style="width: 95px;">Ctrl+Alt</button>
       </div>
     </div>
   </section>

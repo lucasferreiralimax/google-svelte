@@ -1,16 +1,12 @@
+import noKeysChar from './utils';
+
 export function ctrlAltEvent(status) {
   let keys = document.querySelectorAll('.App-keyboard-content .key')
-  let style_hidden = 'font-size: 0; opacity: .5; pointer-events: none;';
+  let style_hidden = 'font-size: 0; opacity: .5; pointer-events: none;'
 
   for(let key of keys) {
+    if(noKeysChar.includes(key.textContent)) continue
     switch(key.textContent) {
-      case 'backspace':
-      case 'whitespace':
-      case 'capslock':
-      case 'Ctrl+Alt':
-      case 'shift 1':
-      case 'shift 2':
-        break;
       case '1':
       case '!':
       case '¹':
@@ -61,7 +57,6 @@ export function ctrlAltEvent(status) {
           key.setAttribute('style', style_hidden)
           :
           key.removeAttribute('style')
-        break;
     }
   }
 }
