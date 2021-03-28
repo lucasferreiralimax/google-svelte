@@ -118,7 +118,7 @@
 </script>
 
 <template>
-  <section class="App-keyboard" class:active='{keyboard}' style="left: {left}px; top: {top}px;">
+  <section data-testid="app-keyboard" class="App-keyboard" class:active='{keyboard}' style="left: {left}px; top: {top}px;">
     <h1 on:mousedown={onMouseDown}>português brasileiro</h1>
     <button class="exit" type="button" on:click={() => keyboard_store.set(false)}><i class="icon icon-exit">X</i></button>
     <div class="App-keyboard-content" on:click={onKeyVirtualEvents}>

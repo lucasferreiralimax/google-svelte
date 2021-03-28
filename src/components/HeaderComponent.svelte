@@ -1,5 +1,5 @@
 <template>
-  <header class="App-header">
+  <header data-testid="app-header" class="App-header">
     <h1>Deus é Maior</h1>
     <img src='../assets/logo.svg' class="App-logo" alt="logo Google" width="272" height="92" />
     <h2><a href="https://svelte.dev" target="_blank" rel="noreferrer noopener">Svelte</a></h2>

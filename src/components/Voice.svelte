@@ -28,7 +28,6 @@
   }
 
   function activeVoice() {
-    console.log("testes")
     if(!recognizing) {
       recognizing = true;
       final_transcript = '';
@@ -37,7 +36,6 @@
   }
 
   function desactiveVoice() {
-    console.log("testes desa")
     if(recognizing) {
       recognizing = false;
       recognition.stop();
@@ -117,7 +115,7 @@
 </script>
 
 <template>
-  <section class='App-voice' class:active='{voice}'>
+  <section data-testid="app-voice" class='App-voice' class:active='{voice}'>
     <button class="exit" type="button" on:click={disableVoice}><i class="icon icon-exit">X</i></button>
     <p>Fale agora</p>
     <button type="button" class='btn-voice' class:active='{animationButton}'>

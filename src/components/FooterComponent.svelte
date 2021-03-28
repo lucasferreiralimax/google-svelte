@@ -4,7 +4,7 @@
 </script>
 
 <template>
-  <footer class="App-footer">
+  <footer data-testid="app-footer" class="App-footer">
     <div>
       <h2 class="brasil">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" widht="25px" height="25px">

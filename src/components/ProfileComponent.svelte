@@ -4,7 +4,7 @@
 </script>
 
 <template>
-  <section class="App-profile" use:clickOutside on:click_outside={() => profile = false}>
+  <section data-testid="app-profile" class="App-profile" use:clickOutside on:click_outside={() => profile = false}>
     <h1 on:click='{() => profile = !profile}'>
       2L
       <img src="../assets/sinatra-40x40.jpg" class="App-profile-foto" alt="Foto Frank Sinatra" width="40" height="40" />

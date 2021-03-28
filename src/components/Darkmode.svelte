@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { darkmode_store } from '../store.js';
 
-  export let type;
+  export let type = undefined;
 
   let darkmode;
 
@@ -46,7 +46,7 @@
 </script>
 
 <template>
-  <button type="button" class='darkmode' class:active='{darkmode}' class:footer='{type}' aria-label="Toggle darkmode" on:click={() => dark(!darkmode)}>
+  <button data-testid="app-darkmode" type="button" class='darkmode' class:active='{darkmode}' class:footer='{type}' aria-label="Toggle darkmode" on:click={() => dark(!darkmode)}>
     {#if type}
       <svg width="25px" height="25px" viewBox="-5 -5 34 34" fill="var(--main-color)">
         {#if darkmode}

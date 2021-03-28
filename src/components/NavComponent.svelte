@@ -5,7 +5,7 @@
 </script>
 
 <template>
-  <nav class='App-nav' class:active='{nav}'>
+  <nav data-testid="app-nav" class='App-nav' class:active='{nav}'>
     <button type="button" class="App-nav-menu" aria-label="Toggle menu show" on:click='{() => nav = !nav}'>
       <svg fill="var(--main-color)" height="25px" viewBox="0 0 25 25" width="25px" xmlns="http://www.w3.org/2000/svg">
         <path d="M0 0h24v24H0z" fill="none"></path>
