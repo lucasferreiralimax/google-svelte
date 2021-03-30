@@ -1,6 +1,6 @@
-import noKeysChar from './utils';
+import noKeysChar from '../utils';
 
-export function ctrlAltEvent(status) {
+export default function ctrlAltEvent(status) {
   let keys = document.querySelectorAll('.App-keyboard-content .key')
   let style_hidden = 'font-size: 0; opacity: .5; pointer-events: none;'
 

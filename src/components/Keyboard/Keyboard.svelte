@@ -1,11 +1,8 @@
 <script>
-  import { shiftEvent } from './shiftEvent';
-  import { ctrlAltEvent } from './ctrlAltEvent';
-  import { capslockEvent } from './capslockEvent';
+  import { shiftEvent, capslockEvent, ctrlAltEvent, backspaceEvent, insertAtCaretEvent } from './events';
   import { noKeysCharEvents } from './utils';
-  import { search_store, keyboard_store } from '../../store.js';
+  import { keyboard_store } from '../../store.js';
 
-  let search;
   let keyboard;
   let ctrlalt = false;
   let capslock = false;
@@ -14,29 +11,23 @@
   let top = 0;
   let moving = false;
 
-  const unsubscribeSearch = search_store.subscribe(value => {
-		search = value;
-	});
-
   const unsubscribeKeyboard = keyboard_store.subscribe(value => {
 		keyboard = value;
 	});
 
   function onKeyVirtualEvents(event) {
     if(event.target.classList.contains('key')) {
-      let input = document.querySelector('.App-search-input')
+      const input = document.querySelector('.App-search-input')
+      const typeKey = event.target.textContent
+      const keyEvents = {
+        backspace: el => backspaceEvent(el),
+        whitespace: el => insertAtCaretEvent(el, ' ')
+      }
 
-      if(!noKeysCharEvents.includes(event.target.textContent)) {
-        switch(event.target.textContent) {
-          case 'backspace':
-            backspaceEvent(input)
-            break;
-          case 'whitespace':
-            insertAtCaretEvent(input, ' ')
-            break;
-          default:
-            insertAtCaretEvent(input, event.target.textContent)
-        }
+      if(!noKeysCharEvents.includes(typeKey)) {
+        return keyEvents[typeKey]
+          ? keyEvents[typeKey](input)
+          : insertAtCaretEvent(input, typeKey)
       }
     }
   }
@@ -54,48 +45,6 @@
   function handleCtrlAlt() {
     ctrlalt = !ctrlalt
     ctrlAltEvent(ctrlalt)
-  }
-
-  function backspaceEvent(element) {
-    if (document.selection) {
-      element.focus()
-      let sel = document.selection.createRange()
-      --sel.text;
-      element.focus()
-    } else if (element.selectionStart || element.selectionStart === 0) {
-      let startPos = element.selectionStart;
-      let endPos = element.selectionEnd;
-      let textValue = element.value.substring(0, startPos-1) + element.value.substring(endPos, element.value.length)
-
-      search_store.set(textValue)
-      element.focus()
-      element.selectionStart = startPos;
-      element.selectionEnd = --endPos;
-    } else {
-      search_store.set(--element.value)
-      element.focus()
-    }
-  }
-
-  function insertAtCaretEvent(element, text) {
-    if (document.selection) {
-      element.focus()
-      let sel = document.selection.createRange()
-      sel.text = text;
-      element.focus()
-    } else if (element.selectionStart || element.selectionStart === 0) {
-      let startPos = element.selectionStart;
-      let endPos = element.selectionEnd;
-      let textValue = element.value.substring(0, startPos) + text + element.value.substring(endPos, element.value.length)
-
-      search_store.set(textValue)
-      element.focus()
-      element.selectionStart = startPos + text.length;
-      element.selectionEnd = startPos + text.length;
-    } else {
-      search_store.set(element.value += text)
-      element.focus()
-    }
   }
 
 	function onMouseDown() {
