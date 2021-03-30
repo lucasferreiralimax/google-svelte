@@ -1,5 +1,8 @@
 # Google Svelte
 
+## Screenshot
+![Google Svelte Screenshot](https://g00gle-svelte.web.app/assets/google-svelte.png)
+
 ## Get started
 
 Install the dependencies...
