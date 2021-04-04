@@ -1,5 +1,5 @@
 <script>
-  import { Router, Route } from "svelte-routing";
+  import { Router, Route } from "svelte-navigator";
   import NavComponent from './components/NavComponent.svelte';
   import FooterComponent from './components/FooterComponent.svelte';
   import Home from "./views/Home.svelte";
@@ -8,7 +8,7 @@
 	import Notfound from "./views/Notfound.svelte";
 </script>
 
-<div class="App">
+<div data-testid="app-container" class="App">
   <Router>
     <NavComponent />
     <Route path="/">

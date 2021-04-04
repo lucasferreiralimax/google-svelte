@@ -1,6 +1,6 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
-  import { link } from "svelte-routing";
+  import { link } from "svelte-navigator";
 
   onMount(() => {
     document.body.classList.add('notfound');
@@ -12,7 +12,7 @@
 </script>
 
 <section data-testid="app-notfound" class="App-notfound">
-  <a href="/" use:link>
+  <a data-testid="link-home" href="/" use:link>
     <span id="logo" aria-label="Google"></span>
   </a>
   <p><b>404.</b> Esse é um erro.</p>

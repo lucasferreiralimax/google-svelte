@@ -1,5 +1,5 @@
 <script>
-  import { link } from "svelte-routing";
+  import { link } from "svelte-navigator";
   import Darkmode from '../components/Darkmode.svelte';
 </script>
 
