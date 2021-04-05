@@ -1,11 +1,66 @@
-import { render } from '@testing-library/svelte'
+import { render, fireEvent, screen } from '@testing-library/svelte'
 
 import Keyboard from './Keyboard.svelte'
+import noKeysChar from './utils'
+
+let keys_mock = ['\'', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', 'backspace', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '´', '[', 'capslock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'ç', '~', ']', 'shift 1', '\\', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', ';', 'shift 2', 'Ctrl+Alt', 'whitespace', 'Ctrl+Alt']
+let keys_mock_shift = ['"', '!', '@', '#', '$', '%', '¨', '&', '*', '(', ')', '_', '+', 'backspace', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '`', '{', 'capslock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'ç', '^', '}', 'shift 1', '\|', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '<', '>', ':', 'shift 2', 'Ctrl+Alt', 'whitespace', 'Ctrl+Alt']
+let keys_mock_ctrl_alt = ['\'', '¹', '²', '³', '£', '¢', '¬', '7', '8', '9', '0', '-', '§', 'backspace', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '´', 'ª', 'capslock', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'ç', '~', 'º', 'shift 1', '\\', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', ';', 'shift 2', 'Ctrl+Alt', 'whitespace', 'Ctrl+Alt']
+
+function keyMockCheck(keys, mock, config) {
+  for(let [index, key] of keys.entries()) {
+    if(!noKeysChar.includes(key.textContent)) {
+      if(!config.upper) return expect(key.textContent).toBe(mock[index])
+      expect(key.textContent).toBe(mock[index].toUpperCase())
+    }
+  }
+}
 
 describe("Should render Keyboard", () => {
-  it('renders components, valid link and text', () => {
-    const { getByTestId } = render(Keyboard)
-
-    expect(getByTestId('app-keyboard')).toBeInTheDocument()
+  beforeEach(() => {
+    render(Keyboard)
   })
+  it('renders app-keyboard', () => {
+    expect(screen.getByTestId('app-keyboard')).toBeInTheDocument();
+  });
+  it('renders keys default', () => {
+    let keys = document.querySelectorAll('.App-keyboard-content .key')
+
+    for(let [index, key] of keys.entries()) {
+      expect(key.textContent).toBe(keys_mock[index])
+    }
+  });
+  it('keyboard action capslock', () => {
+    fireEvent.click(screen.getByTestId('capslock'))
+    let keys = document.querySelectorAll('.App-keyboard-content .key')
+    keyMockCheck(keys, keys_mock, { upper: true} )
+  });
+  it('keyboard action shift', () => {
+    // active shift_1
+    fireEvent.click(screen.getByTestId('shift_1'))
+    let keys = document.querySelectorAll('.App-keyboard-content .key')
+    keyMockCheck(keys, keys_mock_shift, { upper: true} )
+
+    // disabled shift_1
+    fireEvent.click(screen.getByTestId('shift_1'))
+
+    // active shift_2
+    fireEvent.click(screen.getByTestId('shift_2'))
+    keys = document.querySelectorAll('.App-keyboard-content .key')
+    keyMockCheck(keys, keys_mock_shift, { upper: true} )
+  });
+  it('keyboard action ctrl-alt', () => {
+    // active ctrl_alt_1
+    fireEvent.click(screen.getByTestId('ctrl_alt_1'))
+    let keys = document.querySelectorAll('.App-keyboard-content .key')
+    keyMockCheck(keys, keys_mock_ctrl_alt, { upper: false} )
+
+    // disabled ctrl_alt_1
+    fireEvent.click(screen.getByTestId('ctrl_alt_1'))
+
+    // active ctrl_alt_2
+    fireEvent.click(screen.getByTestId('ctrl_alt_2'))
+    keys = document.querySelectorAll('.App-keyboard-content .key')
+    keyMockCheck(keys, keys_mock_ctrl_alt, { upper: false} )
+  });
 })
